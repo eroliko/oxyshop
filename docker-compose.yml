@@ -1,0 +1,59 @@
+version: '3.8'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    image: oxyshop
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    environment:
+      COMPOSER_MEMORY_LIMIT: -1
+      PHP_IDE_CONFIG: serverName=oxyshop
+    networks:
+      - oxyshop
+    stdin_open: true
+  dbm:
+    image: mariadb:10.5
+    environment:
+      MYSQL_DATABASE: oxyshop
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_PASSWORD: secret
+    volumes:
+      - ./.docker/mysqldump:/docker-mysqldump
+    networks:
+      - oxyshop
+  logs_dbm:
+    image: mariadb:10.5
+    environment:
+      MYSQL_DATABASE: oxyshop_logs
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_PASSWORD: secret
+    networks:
+      - oxyshop
+  nginx:
+    image: nginx:1.19
+    ports:
+      - 80:80
+    volumes:
+      - ./:/var/www
+      - ./.docker/nginx:/etc/nginx/conf.d/
+    networks:
+      - oxyshop
+  redis:
+    image: bitnami/redis:latest
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - oxyshop
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 3000:8080
+    networks:
+      - oxyshop
+networks:
+  oxyshop:
+    driver: bridge

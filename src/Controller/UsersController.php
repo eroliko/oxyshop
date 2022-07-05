@@ -21,7 +21,6 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 class UsersController extends AbstractController
 {
     /**
-     * @param \App\Controller\FakeUserRoleController $fakeUserRoleController
      * @return \Symfony\Component\HttpFoundation\Response
      */
     #[Route(
@@ -29,14 +28,12 @@ class UsersController extends AbstractController
         , name: 'app_users',
         methods: ['GET']
     )]
-    public function index(FakeUserRoleController $fakeUserRoleController): Response
+    public function index(): Response
     {
         $user = new User();
         $form = $this->createForm(UserFormType::class, $user);
         return $this->render('users/index.html.twig', [
-            'controller_name' => 'UsersController',
             'title' => 'Users',
-            'roles' => $fakeUserRoleController->getRoles(),
             'user_form' => $form->createView()
         ]);
     }

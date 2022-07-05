@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Form;
 
+use App\Controller\FakeUserRoleController;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -15,12 +17,21 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserFormType extends AbstractType
 {
+    public function __construct(
+        private readonly FakeUserRoleController $roleController
+    )
+    {
+    }
+
     /**
      * @param \Symfony\Component\Form\FormBuilderInterface $builder
      * @param array $options
      * @return void
      */
-    public function buildForm(FormBuilderInterface $builder, array $options): void
+    public function buildForm(
+        FormBuilderInterface $builder,
+        array $options
+    ): void
     {
         $builder
             ->add(User::ATTR_NAME)
@@ -32,7 +43,9 @@ class UserFormType extends AbstractType
                 'invalid_message' => 'The password fields must match.',
             ])
             ->add(User::ATTR_EMAIL, EmailType::class)
-            ->add(User::ATTR_TYPE)
+            ->add(User::ATTR_TYPE, ChoiceType::class, [
+                'choices' => \array_flip($this->roleController->getRoles())
+            ])
             ->add('Registrovat', SubmitType::class)
             ->setAction('/users')
             ->setMethod('POST')

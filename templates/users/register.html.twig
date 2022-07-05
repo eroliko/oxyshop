@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row" style="height: 150px;"></div>
+    <div class="row">
+        <div class="col">
+            <a href="{{ path('app_users_show') }}">
+                Show users
+            </a>
+        </div>
+        <div class="col">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {% for error_data in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {% for key, error in error_data %}
+                        {{ key }} -> {{ error }}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            {{ form(user_form) }}
+        </div>
+    </div>
+{% endblock %}

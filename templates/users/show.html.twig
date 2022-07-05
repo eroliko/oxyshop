@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row" style="height: 150px;"></div>
+    <div class="row">
+        <div class="col">
+            {% for error_data in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {% for key, error in error_data %}
+                        {{ key }} -> {{ error }}
+                    {% endfor %}
+                </div>
+            {% endfor %}
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <th scope="col">{{ user['id'] }}</th>
+                            <td>{{ user['name'] }}</td>
+                            <td>{{ user['email'] }}</td>
+                            <td>{{ users_types[user['type']] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

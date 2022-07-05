@@ -19,6 +19,7 @@ class UserCreateApiController extends AbstractController
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \App\Repository\UserRepository $userRepository
+     * @param \Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface $passwordEncoder
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     #[Route(

@@ -54,6 +54,16 @@ class UserRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return array
+     */
+    public function findAllInArray(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->getQuery()
+            ->getArrayResult();
+    }
+
 //    /**
 //     * @return User[] Returns an array of User objects
 //     */

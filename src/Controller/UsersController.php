@@ -24,8 +24,8 @@ class UsersController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\Response
      */
     #[Route(
-        '/users'
-        , name: 'app_users',
+        '/users/register',
+        name: 'app_users',
         methods: ['GET']
     )]
     public function index(): Response
@@ -33,7 +33,7 @@ class UsersController extends AbstractController
         $user = new User();
         $form = $this->createForm(UserFormType::class, $user);
         return $this->render('users/index.html.twig', [
-            'title' => 'Users',
+            'title' => 'User register',
             'user_form' => $form->createView()
         ]);
     }
@@ -85,5 +85,48 @@ class UsersController extends AbstractController
         }
 
         return $this->redirectToRoute('app_users');
+    }
+
+    /**
+     * @param \Symfony\Contracts\HttpClient\HttpClientInterface $client
+     * @param \App\Controller\FakeUserRoleController $roleController
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    #[Route(
+        '/users',
+        name: 'app_users',
+        methods: ['GET']
+    )]
+    public function show(
+        HttpClientInterface $client,
+        FakeUserRoleController $roleController
+    ): Response
+    {
+        $users = [];
+
+        // URL http://nginx is set because of docker containers, see https://www.youtube.com/watch?v=1cDXJq_RyNc
+        try {
+            $response = $client->request(
+                'GET',
+                'http://nginx/api/users',
+            );
+
+            $users = \json_decode($response->getContent(false), true);
+        } catch (
+        ClientExceptionInterface
+        |RedirectionExceptionInterface
+        |ServerExceptionInterface
+        |TransportExceptionInterface $e
+        ) {
+            $this->addFlash('error', [
+                'NetworkError' => $e->getMessage()
+            ]);
+        }
+
+        return $this->render('users/show.html.twig', [
+            'users' => $users,
+            'users_types' => $roleController->getRoles(),
+            'title' => 'Users'
+        ]);
     }
 }

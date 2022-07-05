@@ -92,10 +92,10 @@ class User implements PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param string|null $name
+     * @param string $name
      * @return $this
      */
-    public function setName(?string $name): self
+    public function setName(string $name): self
     {
         $this->{self::ATTR_NAME} = $name;
 
@@ -111,10 +111,10 @@ class User implements PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param string|null $password
+     * @param string $password
      * @return $this
      */
-    public function setPassword(?string $password): self
+    public function setPassword(string $password): self
     {
         $this->{self::ATTR_PASSWORD} = $password;
 
@@ -130,10 +130,10 @@ class User implements PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param string|null $email
+     * @param string $email
      * @return $this
      */
-    public function setEmail(?string $email): self
+    public function setEmail(string $email): self
     {
         $this->{self::ATTR_EMAIL} = $email;
 
@@ -149,10 +149,10 @@ class User implements PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @param int|null $type
+     * @param int $type
      * @return $this
      */
-    public function setType(?int $type): self
+    public function setType(int $type): self
     {
         $this->{self::ATTR_TYPE} = $type;
 

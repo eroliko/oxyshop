@@ -24,7 +24,7 @@ class UserCreateApiController extends AbstractController
      */
     #[Route(
         '/api/users',
-        name: 'api_users',
+        name: 'api_users_create',
         methods: ['POST']
     )]
     public function store(

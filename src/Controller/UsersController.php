@@ -25,14 +25,14 @@ class UsersController extends AbstractController
      */
     #[Route(
         '/users/register',
-        name: 'app_users',
+        name: 'app_users_register',
         methods: ['GET']
     )]
     public function index(): Response
     {
         $user = new User();
         $form = $this->createForm(UserFormType::class, $user);
-        return $this->render('users/index.html.twig', [
+        return $this->render('users/register.html.twig', [
             'title' => 'User register',
             'user_form' => $form->createView()
         ]);
@@ -94,7 +94,7 @@ class UsersController extends AbstractController
      */
     #[Route(
         '/users',
-        name: 'app_users',
+        name: 'app_users_show',
         methods: ['GET']
     )]
     public function show(

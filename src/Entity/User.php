@@ -8,8 +8,10 @@ use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(self::ATTR_EMAIL)]
 class User implements PasswordAuthenticatedUserInterface
 {
     /**
@@ -59,7 +61,7 @@ class User implements PasswordAuthenticatedUserInterface
     /**
      * @var string
      */
-    #[ORM\Column(type: 'string', length: self::LIMIT_EMAIL)]
+    #[ORM\Column(type: 'string', length: self::LIMIT_EMAIL, unique: true)]
     #[Assert\NotBlank]
     #[Assert\Email(
         message: 'The email {{ value }} is not a valid email.',

@@ -46,7 +46,7 @@ class UserFormType extends AbstractType
             ->add(User::ATTR_TYPE, ChoiceType::class, [
                 'choices' => \array_flip($this->roleController->getRoles())
             ])
-            ->add('Registrovat', SubmitType::class)
+            ->add('Register', SubmitType::class)
             ->setAction('/users')
             ->setMethod('POST')
         ;

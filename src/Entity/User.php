@@ -6,9 +6,11 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+class User implements PasswordAuthenticatedUserInterface
 {
     /**
      * Public attributes
@@ -44,24 +46,31 @@ class User
      * @var string
      */
     #[ORM\Column(type: 'string', length: self::LIMIT_NAME)]
+    #[Assert\NotBlank]
     private string $name;
 
     /**
      * @var string
      */
     #[ORM\Column(type: 'string', length: self::LIMIT_PASSWORD)]
+    #[Assert\NotBlank]
     private string $password;
 
     /**
      * @var string
      */
     #[ORM\Column(type: 'string', length: self::LIMIT_EMAIL)]
+    #[Assert\NotBlank]
+    #[Assert\Email(
+        message: 'The email {{ value }} is not a valid email.',
+    )]
     private string $email;
 
     /**
      * @var int
      */
     #[ORM\Column(type: 'integer')]
+    #[Assert\NotBlank]
     private int $type;
 
     /**
@@ -81,10 +90,10 @@ class User
     }
 
     /**
-     * @param string $name
+     * @param string|null $name
      * @return $this
      */
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->{self::ATTR_NAME} = $name;
 
@@ -100,10 +109,10 @@ class User
     }
 
     /**
-     * @param string $password
+     * @param string|null $password
      * @return $this
      */
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->{self::ATTR_PASSWORD} = $password;
 
@@ -119,10 +128,10 @@ class User
     }
 
     /**
-     * @param string $email
+     * @param string|null $email
      * @return $this
      */
-    public function setEmail(string $email): self
+    public function setEmail(?string $email): self
     {
         $this->{self::ATTR_EMAIL} = $email;
 
@@ -138,10 +147,10 @@ class User
     }
 
     /**
-     * @param int $type
+     * @param int|null $type
      * @return $this
      */
-    public function setType(int $type): self
+    public function setType(?int $type): self
     {
         $this->{self::ATTR_TYPE} = $type;
 

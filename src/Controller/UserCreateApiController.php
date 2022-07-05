@@ -12,11 +12,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserCreateApiController extends AbstractController
 {
     public function __construct(
-        private readonly ValidatorInterface $validator
+        private readonly ValidatorInterface $validator,
+        private readonly UserPasswordHasherInterface $encoder
     )
     {
     }
@@ -66,7 +68,12 @@ class UserCreateApiController extends AbstractController
     {
         $user->setName($data[User::ATTR_NAME] ?? null);
         $user->setEmail($data[User::ATTR_EMAIL] ?? null);
-        $user->setPassword($data[User::ATTR_PASSWORD] ?? null);
+        $user->setPassword(
+            $this->encoder->hashPassword(
+                $user,
+                $data[User::ATTR_PASSWORD] ?? null
+            )
+        );
         $user->setType(isset($data[User::ATTR_TYPE]) ? (int)$data[User::ATTR_TYPE] : null);
     }
 }

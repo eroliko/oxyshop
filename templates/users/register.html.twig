@@ -4,6 +4,11 @@
     <div class="row" style="height: 150px;"></div>
     <div class="row">
         <div class="col">
+            <a href="{{ path('app_users_show') }}">
+                Show users
+            </a>
+        </div>
+        <div class="col">
             {% for message in app.flashes('success') %}
                 <div class="alert alert-success">
                     {{ message }}

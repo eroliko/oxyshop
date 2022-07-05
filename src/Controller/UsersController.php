@@ -84,7 +84,7 @@ class UsersController extends AbstractController
             ]);
         }
 
-        return $this->redirectToRoute('app_users');
+        return $this->redirectToRoute('app_users_register');
     }
 
     /**

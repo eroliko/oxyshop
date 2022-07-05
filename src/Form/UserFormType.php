@@ -17,6 +17,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class UserFormType extends AbstractType
 {
+    /**
+     * @param \App\Controller\FakeUserRoleController $roleController
+     */
     public function __construct(
         private readonly FakeUserRoleController $roleController
     )

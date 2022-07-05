@@ -12,18 +12,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserCreateApiController extends AbstractController
 {
-    public function __construct(
-        private readonly ValidatorInterface $validator,
-        private readonly UserPasswordHasherInterface $encoder
-    )
-    {
-    }
-
     /**
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \App\Repository\UserRepository $userRepository
@@ -34,7 +26,11 @@ class UserCreateApiController extends AbstractController
         name: 'api_users',
         methods: ['POST']
     )]
-    public function store(Request $request, UserRepository $userRepository): JsonResponse
+    public function store(
+        Request $request,
+        UserRepository $userRepository,
+        UserPasswordHasherInterface $passwordEncoder
+    ): JsonResponse
     {
         $user = new User();
 
@@ -48,6 +44,13 @@ class UserCreateApiController extends AbstractController
         }
 
         if ($form->isValid()) {
+            $user->setPassword(
+                $passwordEncoder->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
             $status = HttpStatuses::STATUS_OK;
             // Here could be set User's data as response...
             $response = [];

@@ -55,7 +55,6 @@ class User implements PasswordAuthenticatedUserInterface
      * @var string
      */
     #[ORM\Column(type: 'string', length: self::LIMIT_PASSWORD)]
-    #[Assert\NotBlank]
     private string $password;
 
     /**

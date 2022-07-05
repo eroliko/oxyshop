@@ -17,7 +17,6 @@ use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use Twig\Environment;
 
 class UsersController extends AbstractController
 {
@@ -30,7 +29,7 @@ class UsersController extends AbstractController
         , name: 'app_users',
         methods: ['GET']
     )]
-    public function index(FakeUserRoleController $fakeUserRoleController, Environment $twig): Response
+    public function index(FakeUserRoleController $fakeUserRoleController): Response
     {
         $user = new User();
         $form = $this->createForm(UserFormType::class, $user);

@@ -1,18 +1,84 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="row" style="height: 150px;"></div>
+    <div class="row">
+        <div class="col">
+            <form method="post" action="{{ path('app_users_store') }}">
+                <div class="col-xl-4">
+                    <label
+                            for="id-{{ constant('\\App\\Entity\\User::ATTR_NAME') }}"
+                            class="form-label"
+                    >
+                        Jméno
+                    </label>
+                    <input
+                            type="text"
+                            name="{{ constant('\\App\\Entity\\User::ATTR_NAME') }}"
+                            class="form-control"
+                            id="id-{{ constant('\\App\\Entity\\User::ATTR_NAME') }}"
+                    >
+                </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+                <div class="col-xl-4">
+                    <label
+                            for="id-{{ constant('\\App\\Entity\\User::ATTR_PASSWORD') }}"
+                            class="form-label"
+                    >
+                        Heslo
+                    </label>
+                    <input
+                            type="password"
+                            name="{{ constant('\\App\\Entity\\User::ATTR_PASSWORD') }}"
+                            class="form-control"
+                            id="id-{{ constant('\\App\\Entity\\User::ATTR_PASSWORD') }}"
+                    >
+                </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/var/www/src/Controller/UsersController.php'|file_link(0) }}">src/Controller/UsersController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/var/www/templates/users/index.html.twig'|file_link(0) }}">templates/users/index.html.twig</a></code></li>
-    </ul>
-</div>
+                <div class="col-xl-4">
+                    <label
+                            for="id-{{ constant('\\App\\Entity\\User::ATTR_EMAIL') }}"
+                            class="form-label"
+                    >
+                        Email
+                    </label>
+                    <input
+                            type="email"
+                            name="{{ constant('\\App\\Entity\\User::ATTR_EMAIL') }}"
+                            class="form-control"
+                            id="id-{{ constant('\\App\\Entity\\User::ATTR_EMAIL') }}"
+                    >
+                </div>
+
+                <div class="col-xl-4">
+                    <label
+                            for="id-{{ constant('\\App\\Entity\\User::ATTR_TYPE') }}"
+                            class="form-label"
+                    >
+                        Typ uživatele
+                    </label>
+                    <select
+                            name="{{ constant('\\App\\Entity\\User::ATTR_TYPE') }}"
+                            class="form-control"
+                            id="id-{{ constant('\\App\\Entity\\User::ATTR_TYPE') }}"
+                    >
+                        {% for key, role in roles %}
+                            <option value="{{ key }}">
+                                {{ role }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-xl-4">
+                    <input
+                            type="submit"
+                            class="form-control btn btn-primary"
+                            value="Registrovat"
+                            name="register"
+                    >
+                </div>
+            </form>
+        </div>
+    </div>
 {% endblock %}

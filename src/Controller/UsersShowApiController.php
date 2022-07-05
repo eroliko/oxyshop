@@ -19,7 +19,7 @@ class UsersShowApiController extends AbstractController
     public function show(UserRepository $userRepository): JsonResponse
     {
         return new JsonResponse(
-            $userRepository->findAllInArray()
+            $userRepository->findAllAsArray()
         );
     }
 }

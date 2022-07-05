@@ -57,7 +57,7 @@ class UserRepository extends ServiceEntityRepository
     /**
      * @return array
      */
-    public function findAllInArray(): array
+    public function findAllAsArray(): array
     {
         return $this->createQueryBuilder('u')
             ->getQuery()
